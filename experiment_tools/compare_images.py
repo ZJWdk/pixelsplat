@@ -57,15 +57,16 @@ def create_image_grid(source_path1, source_path2, output_folder, dataset_label, 
             new_image.paste(img.resize((img_width, img_height)), (x_offset + int(context_width) + img_width * column, y_offset + img_height * row))
 
         # Save image
-        output_path = os.path.join(output_folder, f'{id}.png')
+        output_path = os.path.join(output_folder, f'{id}/comparison.png')
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         new_image.save(output_path)
         print(f'Saved: {output_path}')
 
 
 if __name__ == '__main__':
-    source_path1 = '/media/disk4/zjwang/pixelsplat/outputs/2024-09-22/15-11-59'  # 更改为实际路径
-    source_path2 = '/media/disk4/zjwang/pixelsplat/outputs/2024-09-22/15-14-56'  # 更改为实际路径
-    output_folder = '/media/disk4/zjwang/pixelsplat/experiments/cross_dataset_ckpt/acid_with_re10k_ckpt'  # 更改为实际输出路径
+    source_path1 = '/media/disk4/zjwang/pixelsplat/outputs/2024-09-22/15-11-15'  # 更改为实际路径
+    source_path2 = '/media/disk4/zjwang/pixelsplat/outputs/2024-09-22/15-14-12'  # 更改为实际路径
+    output_folder = '/media/disk4/zjwang/pixelsplat/experiments/cross_dataset_ckpt/re10k_with_acid_ckpt'  # 更改为实际输出路径
     dataset = 'acid'
     ckpt = 're10k'
     create_image_grid(source_path1, source_path2, output_folder, dataset, ckpt)
