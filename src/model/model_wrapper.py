@@ -88,6 +88,7 @@ class ModelWrapper(LightningModule):
         decoder: Decoder,
         losses: list[Loss],
         step_tracker: StepTracker | None,
+        output_dir: Path,
     ) -> None:
         super().__init__()
         self.optimizer_cfg = optimizer_cfg
@@ -101,6 +102,7 @@ class ModelWrapper(LightningModule):
         self.decoder = decoder
         self.data_shim = get_data_shim(self.encoder)
         self.losses = nn.ModuleList(losses)
+        self.time_flag = Path(*output_dir.parts[-2:])
 
         # This is used for testing.
         self.benchmarker = Benchmarker()
@@ -183,7 +185,7 @@ class ModelWrapper(LightningModule):
         # Save images.
         (scene,) = batch["scene"]
         name = get_cfg()["wandb"]["name"]
-        path = self.test_cfg.output_path / name
+        path = self.test_cfg.output_path / name / self.time_flag
         for index, color in zip(batch["target"]["index"][0], color[0]):
             save_image(color, path / scene / f"color/{index:0>6}.png")
         for index, color in zip(

@@ -116,6 +116,7 @@ def train(cfg_dict: DictConfig):
         get_decoder(cfg.model.decoder, cfg.dataset),
         get_losses(cfg.loss),
         step_tracker,
+        output_dir,
     )
     data_module = DataModule(
         cfg.dataset,
