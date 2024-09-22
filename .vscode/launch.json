@@ -41,7 +41,7 @@
                 "checkpointing.load=checkpoints/re10k.ckpt",
             ],
             "env": {
-                "CUDA_VISIBLE_DEVICES": "0",
+                "CUDA_VISIBLE_DEVICES": "7",
             }
         },
         {
