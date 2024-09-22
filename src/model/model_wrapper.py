@@ -195,9 +195,9 @@ class ModelWrapper(LightningModule):
 
     def on_test_end(self) -> None:
         name = get_cfg()["wandb"]["name"]
-        self.benchmarker.dump(self.test_cfg.output_path / name / "benchmark.json")
+        self.benchmarker.dump(self.test_cfg.output_path / name / self.time_flag / "benchmark.json")
         self.benchmarker.dump_memory(
-            self.test_cfg.output_path / name / "peak_memory.json"
+            self.test_cfg.output_path / name / self.time_flag / "peak_memory.json"
         )
 
     @rank_zero_only
