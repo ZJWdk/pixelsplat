@@ -32,7 +32,7 @@ class RootCfg:
 @hydra.main(
     version_base=None,
     config_path="../../config",
-    config_name="generate_evaluation_index",
+    config_name="generate_evaluation_extrapolate_index",
 )
 def train(cfg_dict: DictConfig):
     cfg = load_typed_config(cfg_dict, RootCfg)

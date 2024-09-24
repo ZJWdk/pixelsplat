@@ -124,12 +124,6 @@ def train(cfg_dict: DictConfig):
         step_tracker,
         global_rank=trainer.global_rank,
     )
-    # if checkpoint_path == 'checkpoints/re10k.ckpt':
-    #     checkpoint_path = 'checkpoints/acid.ckpt'
-    # elif checkpoint_path == 'checkpoints/acid.ckpt':
-    #     checkpoint_path = 'checkpoints/re10k.ckpt'
-    # else:
-    #     raise ValueError(f"Checkpoint path not supported in this cross dataset test: {checkpoint_path}")
 
     if cfg.mode == "train":
         trainer.fit(model_wrapper, datamodule=data_module, ckpt_path=checkpoint_path)
@@ -140,8 +134,13 @@ def train(cfg_dict: DictConfig):
             ckpt_path=checkpoint_path,
         )
 
-    src = os.getcwd() / cfg.test.output_path / cfg.wandb["name"] / Path(*output_dir.parts[-2:])
-    dst = output_dir / 'images'
+    src = (
+        os.getcwd()
+        / cfg.test.output_path
+        / cfg.wandb["name"]
+        / Path(*output_dir.parts[-2:])
+    )
+    dst = output_dir / "images"
     os.system(f"ln -s {src} {dst}")
 
 

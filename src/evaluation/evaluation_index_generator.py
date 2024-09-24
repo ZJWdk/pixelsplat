@@ -118,13 +118,33 @@ class EvaluationIndexGenerator(LightningModule):
                 delta = context_right - context_left
 
                 # Pick non-repeated random target views.
+                # while True:
+                #     target_views = torch.randint(
+                #         context_left,
+                #         context_right + 1,
+                #         (self.cfg.num_target_views,),
+                #         generator=self.generator,
+                #     )
+                #     if (target_views.unique(return_counts=True)[1] == 1).all():
+                #         break
+
+                if context_left < 2 or context_right > v - 3:
+                    continue
+                # Test extrapolate abilities, by picking target views outside the context views.
                 while True:
-                    target_views = torch.randint(
+                    target_views_left = torch.randint(
+                        0,
                         context_left,
-                        context_right + 1,
-                        (self.cfg.num_target_views,),
+                        (self.cfg.num_target_views // 2,),
                         generator=self.generator,
                     )
+                    target_views_right = torch.randint(
+                        context_right + 1,
+                        v,
+                        (self.cfg.num_target_views // 2,),
+                        generator=self.generator,
+                    )
+                    target_views = torch.cat((target_views_left, target_views_right))
                     if (target_views.unique(return_counts=True)[1] == 1).all():
                         break
 
@@ -152,7 +172,11 @@ class EvaluationIndexGenerator(LightningModule):
 
     def save_index(self) -> None:
         self.cfg.output_path.mkdir(exist_ok=True, parents=True)
-        with (self.cfg.output_path / "evaluation_index.json").open("w") as f:
+        with (self.cfg.output_path / "evaluation_extrapolate_index_acid.json").open(
+            "w"
+        ) as f:
             json.dump(
-                {k: None if v is None else asdict(v) for k, v in self.index.items()}, f
+                {k: None if v is None else asdict(v) for k, v in self.index.items()},
+                f,
+                indent=4,
             )
