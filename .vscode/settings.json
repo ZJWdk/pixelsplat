@@ -34,5 +34,7 @@
         "**/.ruff_cache/**": true,
         "**/venv/**": true,
         "**/datasets": true,
-    }
+    },
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.wrapTabs": true
 }

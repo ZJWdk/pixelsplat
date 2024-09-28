@@ -1,0 +1,134 @@
+{
+    "StereoScene0000": {
+        "context": [
+            22,
+            27
+        ],
+        "target": [
+            22,
+            23,
+            25
+        ]
+    },
+    "StereoScene0001": {
+        "context": [
+            8,
+            19
+        ],
+        "target": [
+            10,
+            13,
+            14
+        ]
+    },
+    "StereoScene0002": {
+        "context": [
+            8,
+            22
+        ],
+        "target": [
+            10,
+            13,
+            16
+        ]
+    },
+    "StereoScene0003": {
+        "context": [
+            9,
+            26
+        ],
+        "target": [
+            10,
+            19,
+            22
+        ]
+    },
+    "StereoScene0004": {
+        "context": [
+            6,
+            28
+        ],
+        "target": [
+            12,
+            14,
+            26
+        ]
+    },
+    "StereoScene0005": {
+        "context": [
+            10,
+            17
+        ],
+        "target": [
+            12,
+            15,
+            17
+        ]
+    },
+    "StereoScene0006": {
+        "context": [
+            2,
+            15
+        ],
+        "target": [
+            3,
+            10,
+            14
+        ]
+    },
+    "StereoScene0007": {
+        "context": [
+            17,
+            29
+        ],
+        "target": [
+            17,
+            21,
+            23
+        ]
+    },
+    "StereoScene0008": {
+        "context": [
+            19,
+            27
+        ],
+        "target": [
+            21,
+            26,
+            27
+        ]
+    },
+    "StereoScene0009": {
+        "context": [
+            4,
+            16
+        ],
+        "target": [
+            8,
+            9,
+            10
+        ]
+    },
+    "StereoScene0010": {
+        "context": [
+            4,
+            14
+        ],
+        "target": [
+            5,
+            13,
+            14
+        ]
+    },
+    "StereoScene0011": {
+        "context": [
+            0,
+            9
+        ],
+        "target": [
+            1,
+            8,
+            9
+        ]
+    }
+}

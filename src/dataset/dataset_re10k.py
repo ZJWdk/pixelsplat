@@ -52,6 +52,7 @@ class DatasetRE10k(IterableDataset):
         self.stage = stage
         self.view_sampler = view_sampler
         self.to_tensor = tf.ToTensor()
+        self.iter_load_time = 0
 
         # Collect chunks.
         self.chunks = []
@@ -99,6 +100,7 @@ class DatasetRE10k(IterableDataset):
             for example in chunk:
                 extrinsics, intrinsics = self.convert_poses(example["cameras"])
                 scene = example["key"]
+                print(scene)
 
                 try:
                     context_indices, target_indices = self.view_sampler.sample(
@@ -108,14 +110,17 @@ class DatasetRE10k(IterableDataset):
                     )
                 except ValueError:
                     # Skip because the example doesn't have enough frames.
+                    print(f"Skipped {scene} because of insufficient frames.")
                     continue
 
                 # Skip the example if the field of view is too wide.
                 if (get_fov(intrinsics).rad2deg() > self.cfg.max_fov).any():
+                    print(f"Skipped {scene} because of excessive field of view.")
                     continue
 
                 # Load the images.
                 try:
+                    self.iter_load_time += 1
                     context_images = [
                         example["images"][index.item()] for index in context_indices
                     ]
@@ -125,18 +130,19 @@ class DatasetRE10k(IterableDataset):
                     ]
                     target_images = self.convert_images(target_images)
                 except IndexError:
+                    print(f"Skipped {scene} because of missing images.")
                     continue
 
                 # Skip the example if the images don't have the right shape.
-                context_image_invalid = context_images.shape[1:] != (3, 360, 640)
-                target_image_invalid = target_images.shape[1:] != (3, 360, 640)
-                if context_image_invalid or target_image_invalid:
-                    print(
-                        f"Skipped bad example {example['key']}. Context shape was "
-                        f"{context_images.shape} and target shape was "
-                        f"{target_images.shape}."
-                    )
-                    continue
+                # context_image_invalid = context_images.shape[1:] != (3, 360, 640)
+                # target_image_invalid = target_images.shape[1:] != (3, 360, 640)
+                # if context_image_invalid or target_image_invalid:
+                #     print(
+                #         f"Skipped bad example {example['key']}. Context shape was "
+                #         f"{context_images.shape} and target shape was "
+                #         f"{target_images.shape}."
+                #     )
+                #     continue
 
                 # Resize the world to make the baseline 1.
                 context_extrinsics = extrinsics[context_indices]

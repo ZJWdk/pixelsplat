@@ -2,10 +2,10 @@ import calculate_mse, analyse_view_psnr, compare_images
 
 
 if __name__ == "__main__":
-    exp_path = "/media/disk4/zjwang/pixelsplat/outputs/2024-09-24/19-37-01"
-    output_path = "/media/disk4/zjwang/pixelsplat/experiments/extrapolate_test/acid"
+    exp_path = "/media/disk4/zjwang/pixelsplat/outputs/2024-09-25/21-06-46"
+    output_path = "/media/disk4/zjwang/pixelsplat/experiments/stereo_data_test"
     index_path = (
-        "/media/disk4/zjwang/pixelsplat/assets/evaluation_extrapolate_index_acid.json"
+        "/media/disk4/zjwang/pixelsplat/assets/evaluation_index_stereodata.json"
     )
     flag = None
     compare_images.create_image_grid(exp_path, output_path)
