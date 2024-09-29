@@ -10,8 +10,14 @@ import torch
 from jaxtyping import Float, Int, UInt8
 from torch import Tensor
 from tqdm import tqdm
-import uuid
-from pympler import asizeof
+
+import debugpy
+
+debugpy.listen(("localhost", 5678))  # 监听本地端口
+print("Waiting for debugger attach...")
+debugpy.wait_for_client()  # 等待 VSCode 连接
+print("Debugger attached, continuing execution...")
+
 
 DATASET_DIR = Path("/media/disk4/zjwang/stereo_data")
 OUTPUT_DIR = Path("/media/disk4/zjwang/pixelsplat/datasets/stereo_data")

@@ -12,6 +12,13 @@ from lightning.pytorch.loggers.wandb import WandbLogger
 from lightning.pytorch.plugins.environments import SLURMEnvironment
 from omegaconf import DictConfig, OmegaConf
 
+import debugpy
+
+debugpy.listen(("localhost", 5678))  # 监听本地端口
+print("Waiting for debugger attach...")
+debugpy.wait_for_client()  # 等待 VSCode 连接
+print("Debugger attached, continuing execution...")
+
 # Configure beartype and jaxtyping.
 with install_import_hook(
     ("src",),

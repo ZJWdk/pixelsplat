@@ -1,5 +1,12 @@
 from dataclasses import dataclass
 
+import debugpy
+
+debugpy.listen(("localhost", 5678))  # 监听本地端口
+print("Waiting for debugger attach...")
+debugpy.wait_for_client()  # 等待 VSCode 连接
+print("Debugger attached, continuing execution...")
+
 import hydra
 import torch
 from jaxtyping import install_import_hook
@@ -32,7 +39,7 @@ class RootCfg:
 @hydra.main(
     version_base=None,
     config_path="../../config",
-    config_name="generate_stereodata_evaluation_index",
+    config_name="generate_extreme_identity_index",
 )
 def train(cfg_dict: DictConfig):
     cfg = load_typed_config(cfg_dict, RootCfg)

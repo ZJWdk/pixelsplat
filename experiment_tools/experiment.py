@@ -2,14 +2,17 @@ import calculate_mse, analyse_view_psnr, compare_images
 
 
 if __name__ == "__main__":
-    exp_path = "/media/disk4/zjwang/pixelsplat/outputs/2024-09-25/21-06-46"
-    output_path = "/media/disk4/zjwang/pixelsplat/experiments/stereo_data_test"
+    exp_path = "/media/disk4/zjwang/pixelsplat/outputs/2024-09-28/23-42-56"
+    output_path = (
+        "/media/disk4/zjwang/pixelsplat/experiments/extreme_test/identity_context"
+    )
     index_path = (
-        "/media/disk4/zjwang/pixelsplat/assets/evaluation_index_stereodata.json"
+        "/media/disk4/zjwang/pixelsplat/assets/evaluation_extreme_identity_index.json"
     )
     flag = None
-    compare_images.create_image_grid(exp_path, output_path)
+
     calculate_mse.process_images(exp_path, output_path, flag)
-    analyse_view_psnr.plot_psnr_vs_extrapolate_frames(
-        output_path + "/psnrs.json", index_path
-    )
+    compare_images.create_image_grid(exp_path, output_path)
+    # analyse_view_psnr.plot_psnr_vs_extrapolate_frames(
+    #     output_path + "/psnrs.json", index_path
+    # )

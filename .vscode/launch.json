@@ -31,7 +31,7 @@
             }
         },
         {
-            "name": "Test (Debug)",
+            "name": "Test re10k(Debug)",
             "type": "debugpy",
             "request": "launch",
             "module": "src.main",
@@ -46,9 +46,11 @@
                 "mode=test",
                 "dataset/view_sampler=evaluation",
                 "checkpointing.load=checkpoints/re10k.ckpt",
+                "dataset.view_sampler.index_path=assets/evaluation_fb_backward.json",
+                "test.output_path=outputs/fb_test/backward"
             ],
             "env": {
-                "CUDA_VISIBLE_DEVICES": "4",
+                "CUDA_VISIBLE_DEVICES": "2",
             }
         },
         {
@@ -152,7 +154,7 @@
                 "data_loader.test.num_workers=0",
                 "data_loader.val.num_workers=0",
                 "index_generator.output_path=assets",
-                "dataset.roots=[datasets/stereo_data]",
+                "dataset.roots=[datasets/re10k]",
                 "dataset.image_shape=[256,256]"
             ],
             "env": {
@@ -292,5 +294,20 @@
             "justMyCode": true,
             "args": [],
         },
+        {
+            "name": "Python: Local Debug",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ]
+        }
     ]
 }

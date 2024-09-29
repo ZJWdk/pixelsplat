@@ -21,7 +21,7 @@ def create_gt_video(base_path):
             for img in current_path.iterdir():
                 if img.suffix == ".png" or img.suffix == ".jpg":
                     images.append(str(img))
-
+            images = sorted(images, key=lambda x: int((x.split(".")[0].split("/")[-1])))
             create_video(images, str(current_path / f"_video.mp4"), 30)
             video_trans_size(str(current_path / f"_video.mp4"), 30)
 

@@ -35,6 +35,6 @@
         "**/venv/**": true,
         "**/datasets": true,
     },
-    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.pinnedTabSizing": "shrink",
     "workbench.editor.wrapTabs": true
 }

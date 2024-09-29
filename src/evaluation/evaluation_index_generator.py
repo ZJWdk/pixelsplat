@@ -50,7 +50,6 @@ class EvaluationIndexGenerator(LightningModule):
         extrinsics = batch["target"]["extrinsics"][0]
         intrinsics = batch["target"]["intrinsics"][0]
         scene = batch["scene"][0]
-
         context_indices = torch.randperm(v, generator=self.generator)
         for context_index in tqdm(context_indices, "Finding context pair"):
             xy, _ = sample_image_grid((h, w), self.device)
@@ -117,6 +116,8 @@ class EvaluationIndexGenerator(LightningModule):
                 context_left = min(chosen, context_index.item())
                 context_right = max(chosen, context_index.item())
                 delta = context_right - context_left
+                # delta = max(min_distance, delta)
+                # context_right = context_left + delta
 
                 # Pick non-repeated random target views.
                 while True:
@@ -151,7 +152,8 @@ class EvaluationIndexGenerator(LightningModule):
 
                 target = tuple(sorted(target_views.tolist()))
                 self.index[scene] = IndexEntry(
-                    context=(context_left, context_right),
+                    # context=(context_left, context_right),
+                    context=(context_left, context_left + 1),
                     target=target,
                 )
 
@@ -169,11 +171,14 @@ class EvaluationIndexGenerator(LightningModule):
                 break
         else:
             # This happens if no starting frame produces a valid evaluation example.
+            print(f"No valid context pair found for scene {scene}.")
             self.index[scene] = None
 
     def save_index(self) -> None:
         self.cfg.output_path.mkdir(exist_ok=True, parents=True)
-        with (self.cfg.output_path / "evaluation_index_stereodata.json").open("w") as f:
+        with (self.cfg.output_path / "evaluation_extreme_identity_index.json").open(
+            "w"
+        ) as f:
             json.dump(
                 {k: None if v is None else asdict(v) for k, v in self.index.items()},
                 f,
