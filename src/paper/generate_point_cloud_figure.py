@@ -41,7 +41,8 @@ SCENES = (
     # ("d70fc3bef87bffc1", 67, 92, 10.0, [60]),
     # ("f0feab036acd7195", 44, 69, 25.0, [125]),
     # ("a93d9d0fd69071aa", 57, 82, 15.0, [60]),
-    ("cd74b1244d112628", 15, 115, 2433.8584, [69]),
+    # ("cd74b1244d112628", 15, 115, 2433.8584, [90]),
+    ("ed477bdf8582adff", 40, 85, 10.0, [0]),
 )
 FIGURE_WIDTH = 500
 MARGIN = 4
@@ -99,7 +100,7 @@ def generate_point_cloud_figure(cfg_dict):
         dataset = get_dataset(cfg.dataset, "test", None)
         example = default_collate([next(iter(dataset))])
         example = apply_to_collection(example, Tensor, lambda x: x.to(device))
-
+        far = example["context"]["far"][0][0].item()
         # Generate the Gaussians.
         visualization_dump = {}
         gaussians = encoder.forward(
@@ -279,7 +280,7 @@ def generate_point_cloud_figure(cfg_dict):
             image = total_alpha * image + (1 - total_alpha) * canvas
 
             base = Path(f"point_clouds/{idx:0>6}_{scene}")
-            save_image(image, f"{base}_angle_{angle:0>3}.png")
+            save_image(image, f"{base}/angle_{angle:0>3}.png")
 
             # Render depth.
             *_, h, w = example["context"]["image"].shape
@@ -300,7 +301,7 @@ def generate_point_cloud_figure(cfg_dict):
                 trim(visualization_dump["rotations"])[0],
                 trim(gaussians.harmonics)[0],
                 trim(gaussians.opacities)[0],
-                base / "gaussians.ply",
+                base / f"gaussians_{scene}.ply",
             )
 
             result = rendered.depth
@@ -309,8 +310,8 @@ def generate_point_cloud_figure(cfg_dict):
             result = result.log()
             result = 1 - (result - depth_near) / (depth_far - depth_near)
             result = apply_color_map_to_image(result, "turbo")
-            save_image(result[0, 0], f"{base}_depth_0.png")
-            save_image(result[0, 1], f"{base}_depth_1.png")
+            save_image(result[0, 0], f"{base}/depth_0.png")
+            save_image(result[0, 1], f"{base}/depth_1.png")
             a = 1
         a = 1
     a = 1
